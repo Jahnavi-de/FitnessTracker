@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .dashboard-card label {
+            color: white;
+        }
+
+        .dashboard-card input,
+        .dashboard-card select {
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body class="bg">
+    <div class="container pt-5">
+        <h1 class="text-center mb-4 text-white">Enter Your Workout Details</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <form id="workoutform" class="dashboard-card">
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Weight(kg)</label>
+                        <input type="number" class="form-control" id="nweight" placeholder="Enter your weight">
+                    </div>
+                    <div class="mb-3">
+                        <label for="height" class="form-label">Height(cm)</label>
+                        <input type="number" class="form-control" id="height" placeholder="Enter your height">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="noofexercise" class="form-label">No of Exercise</label>
+                        <input type="number" class="form-control" id="noofexercise" min="1" max="10">
+                    </div>
+
+                    <div id="exercisecontainer"></div>
+                    <button type="submit" class="btn btn-warning w-100">Submit</button>
+                </form>
+                <div id="result" class="mt-4 text-center"></div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#noofexercise").on("input", function () {
+                    let count = $(this).val();
+                    let container = $("#exercisecontainer");
+
+                    container.html("");
+                    for (let i = 1; i <= count; i++) {
+
+                        container.append(`
+                            <div class="mb-3">
+                                        <label class="form-label fw-semibold">Exercise ${i}</label >
+                                            <select class="form-select exercise_name" name="exercise${i}">
+                                                <option selected disabled>Choose an option</option>
+                                                <option value="running">running</option>
+                                                <option value="walking">walking</option>
+                                                <option value="cycling">cycling</option>
+                                                <option value="skipping">skipping</option>
+                                                <option value="swimming">swimming</option>
+                                                <option value="push-ups">push-ups</option>
+                                                <option value="pull-ups">pull-ups</option>
+                                                <option value="squats">squats</option>
+                                                <option value="lunges">lunges</option>
+                                                <option value="plank">plank</option>
+                                                <option value="glute-bridge">glute-bridge</option>
+                                                <option value="surya namaskar">surya namaskar</option>
+                                                <option value="jumping jacks">jumping jacks</option>
+                                                <option value="high knees">high knees</option>
+                                                <option value="leg raises">leg raises</option>
+                                                <option value="sit-up">sit-up</option>
+                                                <option value="mountain climbers">Mountain climbers</option>
+                                                <option value="stair climbing">stair climbing</option>
+                                                <option value="butterfly">butterfly</option>
+                                            </select>
+                                            <div class="row mt-3">
+                                                <div class="col ">
+                                                    <input type="number" class="form-control reps" name="reps${i}" placeholder="Reps">
+                                                </div>
+                                                <div class="col ">
+                                                     <input type="number" class="form-control duration" name="duration${i}" placeholder="Duration (min)">
+                                                </div>
+                                            </div>
+
+                                    </div > 
+                        `);
+                    }
+
+                });
+            });
+        </script>
+
+
+
+    </div>
+    <script>
+        $("#workoutform").submit(function (e) {
+            e.preventDefault();
+
+            let weight = $("#nweight").val();
+            let height = $("#height").val();
+
+
+            if (!weight || !height) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            let exercises = [];
+            $("#exercisecontainer .mb-3").each(function () {
+                let name = $(this).find(".exercise_name").val();
+                let reps = $(this).find(".reps").val();
+                let duration = $(this).find(".duration").val();
+                if (name && reps && duration) {
+                    exercises.push({
+                        name: name,
+                        reps: reps,
+                        duration: duration
+                    });
+                }
+            });
+            if (exercises.length === 0) {
+                alert("Please add at least one exercise");
+                return;
+            }
+            $.ajax({
+                url: "http://localhost/Project1/calculate.php",
+                type: "POST",
+                data: {
+                    weight: weight,
+                    height: height,
+                    exercises: JSON.stringify(exercises)
+                },
+                dataType: "json",
+                success: function (res) {
+                    if (res.status == 1) {
+                        $("#result").html(`
+                        <div class="alert alert-success text-center">
+                        Calories Burned:<b>${res.calories}</b> kcal <br>
+                        BMI:<b>${res.bmi}</b>
+                        </div>
+                        `);
+
+                        $.ajax({
+                            url: "http://localhost/Project1/update.php",
+                            type: "POST",
+                            data: { calories: res.calories },
+                            dataType: "json",
+                            success: function (updateRes) {
+                                alert("Weight Updated to " + updateRes.new_weight + " kg");
+                                window.location = "http://localhost/Project1/dashboard.php";
+                            }
+                        });
+
+                    }
+                    else {
+                        $("#result").html(`<div class="alert alert-danger">${res.message}</div>`);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

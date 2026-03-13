@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 15px;
+            padding: 12px 30px;
+        }
+
+        .hero {
+            height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 15px;
+
+        }
+        
+
+        .btn {
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        p {
+            opacity: 0.9;
+            font-size: 18px;
+        }
+
+        .features {
+            margin-top: 80px;
+            margin-top: 100px;
+            padding-top: 20px;
+
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            padding: 35px;
+            max-width: 320px;
+            margin: auto;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-dark ">
+        <div class="container">
+
+            <a class="navbar-brand">Fitness Tracker</a>
+
+            <div>
+                <a href="login.html" class="btn btn-outline-light me-2">Login</a>
+                <a href="register.html" class="btn btn-warning">Register</a>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="hero">
+        <div class="hero-box">
+
+            <h1 class="display-4 mb-4">Track Your Fitness Journey</h1>
+
+            <p class="lead mb-4">
+                Monitor your BMI, Weight and Calories Burned
+            </p>
+
+            <a href="register.html" class="btn btn-warning btn-lg me-3">Get Started</a>
+            <a href="login.html" class="btn btn-light btn-lg">Login</a>
+
+        </div>
+    </div>
+    <section class="features py-5">
+        <div class="container text-center text-white">
+
+            <h2 class="mb-5">Why Use Fitness Tracker?</h2>
+
+            <div class="row">
+
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <div class="icon">📊</div>
+                        <h4>Track BMI</h4>
+                        <p>Instantly calculate and monitor your Body Mass Index.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <div class="icon">⚖️</div>
+                        <h4>Monitor Weight</h4>
+                        <p>Keep track of your weight changes and progress.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4">
+                        <div class="icon">🔥</div>
+                        <h4>Calories Burned</h4>
+                        <p>Record daily calories burned during workouts.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
